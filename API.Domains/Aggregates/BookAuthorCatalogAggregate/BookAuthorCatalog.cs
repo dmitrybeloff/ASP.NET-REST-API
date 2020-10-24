@@ -7,7 +7,7 @@ using System.Text;
 
 namespace API.Domains.Aggregates.BookAuthorCatalogAggregate
 {
-    public class BookAuthorCatalog: IEntity, IAggregateRoot, IManyToManyRelationshipMember
+    public class BookAuthorCatalog: Entity, IAggregateRoot, IManyToManyRelationshipMember
     {
         public int? BookAuthorCatalogId { get; private set; }
 

@@ -1,12 +1,15 @@
-﻿using API.Domains.Aggregates.BookAuthorCatalogAggregate;
+﻿using API.Domains.Aggregates.BookAggregate;
+using API.Domains.Aggregates.BookAuthorCatalogAggregate;
+using API.Domains.Events;
 using API.Domains.Interfaces;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace API.Domains.Aggregates.AuthorAggregate
 {
-    public class Author: IEntity, IAggregateRoot
+    public class Author: Entity, IAggregateRoot
     {
         public int? AuthorId { get; private set; }
         public string Name { get; private set; }
@@ -17,7 +20,7 @@ namespace API.Domains.Aggregates.AuthorAggregate
 
         protected Author() { }
 
-        public Author(string name)
+        public Author(string name, IList<Book> books)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -25,6 +28,14 @@ namespace API.Domains.Aggregates.AuthorAggregate
             }
 
             Name = name;
+
+            if (books != null)
+            {
+                foreach (var book in books)
+                {
+                    AddDomainEvent(new BookAuthorConnectionCreatedDomainEvent(book, this));
+                }
+            }
         }
     }
 }

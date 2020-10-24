@@ -5,7 +5,7 @@ using System.Text;
 
 namespace API.Domains.Aggregates.BookAggregate
 {
-    public class BookReview: IEntity
+    public class BookReview: Entity
     {
         public int? BookReviewId { get; private set; }
         public string Name { get; private set; }

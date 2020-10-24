@@ -6,7 +6,7 @@ using System.Text;
 
 namespace API.Domains.Aggregates.BookAggregate
 {
-    public class Book: IEntity, IAggregateRoot
+    public class Book: Entity, IAggregateRoot
     {
         public int? BookId { get; private set; }
         public string Title { get; set; }
