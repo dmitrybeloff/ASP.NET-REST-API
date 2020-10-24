@@ -1,4 +1,6 @@
-﻿using API.Domains.Aggregates.BookAuthorCatalogAggregate;
+﻿using API.Domains.Aggregates.AuthorAggregate;
+using API.Domains.Aggregates.BookAuthorCatalogAggregate;
+using API.Domains.Events;
 using API.Domains.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -20,7 +22,7 @@ namespace API.Domains.Aggregates.BookAggregate
 
         protected Book() { }
 
-        public Book(string title)
+        public Book(string title, IList<Author> authors)
         {
             if (string.IsNullOrEmpty(title))
             {
@@ -30,6 +32,14 @@ namespace API.Domains.Aggregates.BookAggregate
             Title = title;
 
             bookReviews = new List<BookReview>();
+
+            if (authors != null)
+            {
+                foreach (var author in authors)
+                {
+                    AddDomainEvent(new BookAuthorConnectionCreatedDomainEvent(this, author));
+                }
+            }
         }
 
         public void AddReview()

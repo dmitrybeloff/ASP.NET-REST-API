@@ -11,6 +11,7 @@ namespace API.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Book> bookConfiguration)
         {
+            bookConfiguration.Ignore(e => e.DomainEvents);
         }
     }
 }

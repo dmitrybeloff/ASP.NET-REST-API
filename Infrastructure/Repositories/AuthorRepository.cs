@@ -1,8 +1,10 @@
 ﻿using API.Domains.Aggregates.AuthorAggregate;
 using API.Domains.Interfaces;
 using API.Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,26 +14,34 @@ namespace API.Infrastructure.Repositories
     {
         private readonly ApplicationDatabaseContext databaseContext;
 
+        public IUnitOfWork UnitOfWork => databaseContext;
+
         public AuthorRepository(ApplicationDatabaseContext databaseContext)
         {
             this.databaseContext = databaseContext;
         }
 
-        public IUnitOfWork UnitOfWork => databaseContext;
-
-        public Task<Author> Add(Author author)
+        public async Task<Author> AddAsync(Author author)
         {
-            throw new NotImplementedException();
+            return (await databaseContext.AddAsync(author)).Entity;
         }
 
-        public Task<Author> FindAsync(int id)
+        public async Task<Author> FindAsync(int id)
         {
-            throw new NotImplementedException();
+            return await databaseContext.Authors
+                .SingleOrDefaultAsync(a => a.AuthorId.Value == id);
         }
 
-        public Author Remove(Author author)
+        public async Task<IList<Author>> FindWhereInAsync(List<int> ids)
         {
-            throw new NotImplementedException();
+            return await databaseContext.Authors
+                .Where(a => ids.Contains(a.AuthorId.Value))
+                .ToListAsync();
+        }
+
+        public void Remove(Author author)
+        {
+            databaseContext.Remove(author);
         }
     }
 }

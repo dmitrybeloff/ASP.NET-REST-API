@@ -8,4 +8,12 @@
     <PackageReference Include="MediatR" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DomainEventHandlers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\API.Domains\API.Domains.csproj" />
+  </ItemGroup>
+
 </Project>

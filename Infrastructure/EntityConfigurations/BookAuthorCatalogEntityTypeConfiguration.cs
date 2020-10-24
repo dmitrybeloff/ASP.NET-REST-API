@@ -12,6 +12,8 @@ namespace API.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<BookAuthorCatalog> bookAuthorCatalogConfiguration)
         {
+            bookAuthorCatalogConfiguration.Ignore(e => e.DomainEvents);
+
             bookAuthorCatalogConfiguration
                 .HasOne(ba => ba.Book)
                 .WithMany(b => b.Authors)

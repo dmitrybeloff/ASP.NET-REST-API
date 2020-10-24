@@ -12,6 +12,8 @@ namespace API.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<BookReview> bookReviewConfiguration)
         {
+            bookReviewConfiguration.Ignore(e => e.DomainEvents);
+
             bookReviewConfiguration
                 .HasOne(r => r.Book)
                 .WithMany(b => b.BookReviews)
