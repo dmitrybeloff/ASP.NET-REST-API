@@ -23,7 +23,7 @@ namespace API.Infrastructure.Repositories
 
         public async Task<Author> AddAsync(Author author)
         {
-            return (await databaseContext.AddAsync(author)).Entity;
+            return (await databaseContext.Authors.AddAsync(author)).Entity;
         }
 
         public async Task<Author> FindAsync(int id)

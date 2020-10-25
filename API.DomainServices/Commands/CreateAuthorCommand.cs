@@ -16,9 +16,5 @@ namespace API.DomainServices.Commands
             Name = name;
             BookIds = bookIds;
         }
-
-        public CreateAuthorCommand()
-        {
-        }
     }
 }

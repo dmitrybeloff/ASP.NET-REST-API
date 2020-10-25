@@ -18,7 +18,10 @@ namespace API.Domains.Aggregates.AuthorAggregate
         // The name Books is used for compatibility with a read service mapper naming convention.
         public IReadOnlyList<BookAuthorCatalog> Books => bookAuthorCatalog;
 
-        protected Author() { }
+        protected Author() 
+        {
+            bookAuthorCatalog = new List<BookAuthorCatalog>();
+        }
 
         public Author(string name, IList<Book> books)
         {

@@ -13,6 +13,10 @@ namespace API.Infrastructure.EntityConfigurations
         public void Configure(EntityTypeBuilder<Author> authorConfiguration)
         {
             authorConfiguration.Ignore(e => e.DomainEvents);
+
+            var booksNavigation = authorConfiguration.Metadata.FindNavigation(nameof(Author.Books));
+            booksNavigation.SetField("bookAuthorCatalog");
+            booksNavigation.SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

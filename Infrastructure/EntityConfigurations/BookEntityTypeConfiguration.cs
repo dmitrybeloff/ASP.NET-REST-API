@@ -12,6 +12,13 @@ namespace API.Infrastructure.EntityConfigurations
         public void Configure(EntityTypeBuilder<Book> bookConfiguration)
         {
             bookConfiguration.Ignore(e => e.DomainEvents);
+
+            var authorsNavigation = bookConfiguration.Metadata.FindNavigation(nameof(Book.Authors));
+            authorsNavigation.SetField("bookAuthorCatalog");
+            authorsNavigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            var reviewsNavigation = bookConfiguration.Metadata.FindNavigation(nameof(Book.BookReviews));
+            reviewsNavigation.SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

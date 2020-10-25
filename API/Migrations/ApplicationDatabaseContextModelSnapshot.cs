@@ -94,18 +94,21 @@ namespace API.Migrations
                 {
                     b.HasOne("API.Domains.Aggregates.BookAggregate.Book", "Book")
                         .WithMany("BookReviews")
-                        .HasForeignKey("BookId");
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("API.Domains.Aggregates.BookAuthorCatalogAggregate.BookAuthorCatalog", b =>
                 {
                     b.HasOne("API.Domains.Aggregates.AuthorAggregate.Author", "Author")
                         .WithMany("Books")
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("API.Domains.Aggregates.BookAggregate.Book", "Book")
                         .WithMany("Authors")
-                        .HasForeignKey("BookId");
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

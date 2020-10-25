@@ -21,7 +21,6 @@ namespace API.ServicesExtensions
         {
             services.AddDbContext<ApplicationDatabaseContext>(options =>
             {
-                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                 options.UseLoggerFactory(loggerFactory);
                 options.UseSqlite(configuration.GetConnectionString("Connection"), b => b.MigrationsAssembly("API"));
             }

@@ -12,6 +12,7 @@ using API.Domains.Aggregates.BookAggregate;
 using API.Infrastructure.Repositories;
 using API.Domains.Aggregates.AuthorAggregate;
 using API.DomainServices.Commands;
+using API.Domains.Aggregates.BookAuthorCatalogAggregate;
 
 namespace API.ServicesExtensions
 {
@@ -21,9 +22,10 @@ namespace API.ServicesExtensions
         {
             //services.AddScoped<ICRUDService, CRUDService>();
             //services.AddScoped<IMapper, Mapper>();
-
+            
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IAuthorRepository, AuthorRepository>();
+            services.AddScoped<IBookAuthorCatalogRepository, BookAuthorCatalogRepository>();
 
             services.AddMediatR(typeof(CreateAuthorCommandHandler));
 

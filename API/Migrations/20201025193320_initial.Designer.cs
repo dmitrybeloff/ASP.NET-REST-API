@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(ApplicationDatabaseContext))]
-    [Migration("20201023192419_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201025193320_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,18 +96,21 @@ namespace API.Migrations
                 {
                     b.HasOne("API.Domains.Aggregates.BookAggregate.Book", "Book")
                         .WithMany("BookReviews")
-                        .HasForeignKey("BookId");
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("API.Domains.Aggregates.BookAuthorCatalogAggregate.BookAuthorCatalog", b =>
                 {
                     b.HasOne("API.Domains.Aggregates.AuthorAggregate.Author", "Author")
                         .WithMany("Books")
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("API.Domains.Aggregates.BookAggregate.Book", "Book")
                         .WithMany("Authors")
-                        .HasForeignKey("BookId");
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

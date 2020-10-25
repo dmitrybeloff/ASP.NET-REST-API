@@ -23,7 +23,7 @@ namespace API.Infrastructure.Repositories
 
         public async Task<Book> AddAsync(Book book)
         {
-            return (await databaseContext.AddAsync(book)).Entity;
+            return (await databaseContext.Books.AddAsync(book)).Entity;
         }
 
         public async Task<Book> FindAsync(int id)
