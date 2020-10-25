@@ -29,7 +29,7 @@ namespace API.Infrastructure.Repositories
         public async Task<Book> FindAsync(int id)
         {
             return await databaseContext.Books
-                .SingleOrDefaultAsync(b => b.BookId.Value == id);
+                .FindAsync(id);
         }
 
         public async Task<IList<Book>> FindWhereInAsync(List<int> ids)
@@ -42,6 +42,11 @@ namespace API.Infrastructure.Repositories
         public void Remove(Book book)
         {
             databaseContext.Remove(book);
+        }
+
+        public void Update(Book book)
+        {
+            databaseContext.Books.Update(book);
         }
     }
 }

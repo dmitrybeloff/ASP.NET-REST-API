@@ -20,10 +20,30 @@ namespace API.Controllers
             this.mediator = mediator;
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> CreateBookAsync([FromBody]CreateBookCommand createBookCommand)
         {
             var result = await mediator.Send(createBookCommand);
+
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("{bookId}")]
+        public async Task<IActionResult> AddBookReviewAsync(int bookId, [FromBody] AddBookReviewCommand addBookReviewCommand)
+        {
+            if (bookId != addBookReviewCommand.BookId)
+            {
+                return BadRequest("Ids do not match.");
+            }
+
+            var result = await mediator.Send(addBookReviewCommand);
 
             if (result)
             {

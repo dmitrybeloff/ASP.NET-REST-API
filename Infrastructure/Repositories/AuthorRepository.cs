@@ -29,7 +29,7 @@ namespace API.Infrastructure.Repositories
         public async Task<Author> FindAsync(int id)
         {
             return await databaseContext.Authors
-                .SingleOrDefaultAsync(a => a.AuthorId.Value == id);
+                .FindAsync(id);
         }
 
         public async Task<IList<Author>> FindWhereInAsync(List<int> ids)

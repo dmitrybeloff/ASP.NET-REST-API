@@ -46,9 +46,10 @@ namespace API.Domains.Aggregates.BookAggregate
             }
         }
 
-        public void AddReview()
+        public void AddReview(string name, int stars, string reviewText)
         {
-
+            var review = new BookReview(name, stars, reviewText, this);
+            bookReviews.Add(review);
         }
     }
 }

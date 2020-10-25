@@ -9,6 +9,7 @@ namespace API.Domains.Aggregates.BookAggregate
     public interface IBookRepository: IRepository<Book>
     {
         Task<Book> AddAsync(Book book);
+        void Update(Book book);
         void Remove(Book book);
         Task<Book> FindAsync(int id);
         Task<IList<Book>> FindWhereInAsync(List<int> ids);
