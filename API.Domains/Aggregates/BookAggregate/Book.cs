@@ -4,6 +4,7 @@ using API.Domains.Events;
 using API.Domains.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace API.Domains.Aggregates.BookAggregate
@@ -55,6 +56,37 @@ namespace API.Domains.Aggregates.BookAggregate
         {
             var review = new BookReview(name, stars, reviewText, this);
             bookReviews.Add(review);
+        }
+
+        public void AddReview(BookReview bookReview)
+        {
+            bookReviews.Add(bookReview);
+        }
+
+        public bool UpdateReview(int reviewId, string name, int stars, string reviewText)
+        {
+            var review = bookReviews.SingleOrDefault(br => br.BookReviewId == reviewId);
+
+            if (review != null)
+            {
+                review.UpdateReview(name, stars, reviewText);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool DeleteReview(int reviewId)
+        {
+            var review = bookReviews.SingleOrDefault(br => br.BookReviewId == reviewId);
+
+            if (review != null)
+            {
+                bookReviews.Remove(review);
+                return true;
+            }
+
+            return false;
         }
     }
 }

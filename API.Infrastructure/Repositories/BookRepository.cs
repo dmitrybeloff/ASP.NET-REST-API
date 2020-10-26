@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -47,6 +48,13 @@ namespace API.Infrastructure.Repositories
         public void Update(Book book)
         {
             databaseContext.Books.Update(book);
+        }
+
+        public async Task<Book> LoadBookWithReviewsAsync(int bookId)
+        {
+            return await databaseContext.Books
+                .Include("BookReviews")
+                .SingleOrDefaultAsync(b => b.BookId == bookId);
         }
     }
 }

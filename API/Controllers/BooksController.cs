@@ -70,6 +70,21 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet("{bookId}/detailed")]
+        public async Task<IActionResult> GetBookDetailedAsync(int bookId)
+        {
+            var book = await readService.ReadAsync<Book, BookModel>(x => x.BookId == bookId, new string[] { "Authors.Author" });
+
+            if (book != null)
+            {
+                return Ok(book);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [HttpPut("{bookId}")]
         public async Task<IActionResult> UpdateBookAsync(int bookId, [FromBody] UpdateBookCommand updateBookCommand)
         {
@@ -140,7 +155,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("{bookId}/reviews/{reviewId}")]
+        [HttpGet("{bookId}/reviews/{bookReviewId}")]
         public async Task<IActionResult> GetBookReviewAsync(int bookId, int reviewId)
         {
             var review = await readService.ReadAsync<BookReview, BookReviewModel>(x => x.Book.BookId == bookId && x.BookReviewId == reviewId, new string[] { });
@@ -155,6 +170,39 @@ namespace API.Controllers
             }
         }
 
+        [HttpPut("{bookId}/reviews/{bookReviewId}")]
+        public async Task<IActionResult> UpdateBookReviewAsync(int bookId, int bookReviewId, [FromBody] UpdateBookReviewCommand updateBookReviewCommand)
+        {
+            if (bookId != updateBookReviewCommand.BookId || bookReviewId != updateBookReviewCommand.BookReviewId)
+            {
+                return BadRequest("Ids do not match.");
+            }
 
+            var result = await mediator.Send(updateBookReviewCommand);
+
+            if (result)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpDelete("{bookId}/reviews/{bookReviewId}")]
+        public async Task<IActionResult> DeleteBookReviewAsync(int bookId, int bookReviewId)
+        {
+            var result = await mediator.Send(new DeleteBookReviewCommand(bookId, bookReviewId));
+
+            if (result)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

@@ -7,9 +7,11 @@ using System.Text;
 
 namespace API.DomainServices.Commands
 {
-    public class AddBookReviewCommand : IRequest<BookReviewModel>
-    {        
+    public class UpdateBookReviewCommand : IRequest<bool>
+    {
         public int BookId { get; private set; }
+
+        public int BookReviewId { get; private set; }
 
         public string Name { get; private set; }
 
@@ -17,9 +19,10 @@ namespace API.DomainServices.Commands
 
         public string ReviewText { get; private set; }
 
-        public AddBookReviewCommand(int bookId, string name, int stars, string reviewText)
+        public UpdateBookReviewCommand(int bookId, int bookReviewId, string name, int stars, string reviewText)
         {
             BookId = bookId;
+            BookReviewId = bookReviewId;
             Name = name;
             Stars = stars;
             ReviewText = reviewText;

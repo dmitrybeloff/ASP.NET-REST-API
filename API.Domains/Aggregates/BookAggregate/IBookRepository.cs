@@ -12,6 +12,7 @@ namespace API.Domains.Aggregates.BookAggregate
         void Update(Book book);
         void Remove(Book book);
         Task<Book> FindAsync(int id);
+        Task<Book> LoadBookWithReviewsAsync(int bookId);
         Task<IList<Book>> FindWhereInAsync(List<int> ids);
     }
 }

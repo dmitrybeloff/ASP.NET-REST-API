@@ -17,25 +17,44 @@ namespace API.Domains.Aggregates.BookAggregate
 
         internal BookReview(string name, int stars, string reviewText, Book book)
         {
+            Name = ValidateName(name);
+
+            Stars = ValidateStars(stars);
+
+            ReviewText = reviewText ?? string.Empty;
+
+            Book = book;
+        }
+
+        public void UpdateReview(string name, int stars, string reviewText)
+        {
+            Name = ValidateName(name);
+
+            Stars = ValidateStars(stars);
+
+            ReviewText = reviewText ?? string.Empty;
+        }
+
+        private string ValidateName(string name)
+        {
             if (string.IsNullOrEmpty(name))
             {
-                Name = "Unknown User";
+                return "Unknown User";
             }
             else
             {
-                Name = name;
+                return name;
             }
+        }
 
-            Stars = stars switch
+        private int ValidateStars(int stars)
+        {
+            return stars switch
             {
                 var s when s < 1 => 1,
                 var s when s > 5 => 5,
                 _ => stars,
             };
-
-            ReviewText = reviewText ?? string.Empty;
-
-            Book = book;
         }
     }
 }
