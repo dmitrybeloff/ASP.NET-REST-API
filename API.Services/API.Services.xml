@@ -39,6 +39,26 @@
             <param name="mapper">Used to specify a mapper object.</param>
             <returns>A list of the mapped objects</returns>
         </member>
+        <member name="M:API.Services.Extensions.LinqExtensions.IncludeAll``1(System.Linq.IQueryable{``0},System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Includes all the provided navigation properties.
+            </summary>
+            <typeparam name="TEntity">Type of a database entity.</typeparam>
+            <param name="query">DbSet of <typeparamref name="TEntity"/>.</param>
+            <param name="includeItems">A set of navigation properties.</param>
+            <returns><paramref name="query"/> with the provided navigation properties included.</returns>
+        </member>
+        <member name="M:API.Services.Extensions.LinqExtensions.ApplyOrdering``2(System.Linq.IQueryable{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},API.Services.Enum.SortDirection)">
+            <summary>
+            Orders the <paramref name="query"/> using <paramref name="orderDelegate"/>.
+            </summary>
+            <typeparam name="TEntity">Type of a database entity.</typeparam>
+            <typeparam name="TKey">Type of the object, that is used to order results.</typeparam>
+            <param name="query">DbSet of <typeparamref name="TEntity"/>.</param>
+            <param name="orderDelegate">Used to order results.</param>
+            <param name="sortDirection">Used to specify the direction of the ordering.</param>
+            <returns>Sorted <paramref name="query"/>.</returns>
+        </member>
         <member name="T:API.Services.Mapper.Mapper">
             <inheritdoc/>
         </member>
@@ -48,19 +68,26 @@
         <member name="T:API.Services.Services.GenericReadService">
             <inheritdoc/>
         </member>
-        <member name="M:API.Services.Services.GenericReadService.API#Services#Services#Interfaces#IGenericReadService#ReadAsync``2(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.String[])">
+        <member name="M:API.Services.Services.GenericReadService.#ctor(API.Infrastructure.Database.ApplicationDatabaseContext,API.Services.Mapper.Interaces.IMapper)">
+            <summary>
+            Generic read service constructor. Uses ASP.NET's dependecy injecton mechanism to obtain <paramref name="dbContext"/> and <paramref name="mapper"/> objects.
+            </summary>
+            <param name="dbContext">Database context object.</param>
+            <param name="mapper">Mapper object.</param>
+        </member>
+        <member name="M:API.Services.Services.GenericReadService.ReadAsync``2(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.String[])">
             <inheritdoc/>
         </member>
-        <member name="M:API.Services.Services.GenericReadService.API#Services#Services#Interfaces#IGenericReadService#ReadManyAsync``2(System.Int32,System.Int32,System.String[])">
+        <member name="M:API.Services.Services.GenericReadService.ReadManyAsync``2(System.Int32,System.Int32,System.String[])">
             <inheritdoc/>
         </member>
-        <member name="M:API.Services.Services.GenericReadService.API#Services#Services#Interfaces#IGenericReadService#ReadManyAsync``2(System.Int32,System.Int32,System.String[],System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+        <member name="M:API.Services.Services.GenericReadService.ReadManyAsync``2(System.Int32,System.Int32,System.String[],System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
             <inheritdoc/>
         </member>
-        <member name="M:API.Services.Services.GenericReadService.API#Services#Services#Interfaces#IGenericReadService#ReadManyAsync``3(System.Int32,System.Int32,System.String[],System.Linq.Expressions.Expression{System.Func{``0,``2}},API.Services.Enum.SortDirection)">
+        <member name="M:API.Services.Services.GenericReadService.ReadManyAsync``3(System.Int32,System.Int32,System.String[],System.Linq.Expressions.Expression{System.Func{``0,``2}},API.Services.Enum.SortDirection)">
             <inheritdoc/>
         </member>
-        <member name="M:API.Services.Services.GenericReadService.API#Services#Services#Interfaces#IGenericReadService#ReadManyAsync``3(System.Int32,System.Int32,System.String[],System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,``2}},API.Services.Enum.SortDirection)">
+        <member name="M:API.Services.Services.GenericReadService.ReadManyAsync``3(System.Int32,System.Int32,System.String[],System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,``2}},API.Services.Enum.SortDirection)">
             <inheritdoc/>
         </member>
         <member name="T:API.Services.Services.Interfaces.IGenericReadService">

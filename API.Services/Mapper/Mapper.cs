@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace API.Services.Mapper
@@ -34,7 +35,7 @@ namespace API.Services.Mapper
                 if (sourcePropValue != null && !existingNames.Contains(sourceProperties[i].Name))
                 {
                     // Process Many-To-Many relashionship
-                    if (typeof(IList).IsAssignableFrom(sourceProperties[i].PropertyType)
+                    if (CheckIfObjectTypeCanBeList(sourceProperties[i].PropertyType)
                         && typeof(IManyToManyRelationshipMember).IsAssignableFrom(sourceProperties[i].PropertyType.GenericTypeArguments[0]))
                     {
                         existingNames.Add(sourceProperties[i].Name);
@@ -72,7 +73,7 @@ namespace API.Services.Mapper
                             if (sourceProperties[i].Name == destinationProperties[j].Name)
                             {
                                 // Process One-To-Many realashionship
-                                if (typeof(IList).IsAssignableFrom(sourceProperties[i].PropertyType) && typeof(IList).IsAssignableFrom(destinationProperties[i].PropertyType))
+                                if (CheckIfObjectTypeCanBeList(sourceProperties[i].PropertyType) && CheckIfObjectTypeCanBeList(destinationProperties[j].PropertyType))
                                 {
                                     var newListValues = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(destinationProperties[i].PropertyType.GenericTypeArguments[0]));
                                     foreach (var item in sourcePropValue as IList)
@@ -111,5 +112,18 @@ namespace API.Services.Mapper
 
             return destination;
         }
+
+        private bool CheckIfObjectTypeCanBeList(Type objectType)
+        {
+            if (objectType.IsGenericType)
+            {
+                var genericType = objectType.GenericTypeArguments[0];
+                var listType = typeof(List<>).MakeGenericType(genericType);
+
+                return objectType.IsAssignableFrom(listType);
+            }
+
+            return false;
+        }            
     }
 }

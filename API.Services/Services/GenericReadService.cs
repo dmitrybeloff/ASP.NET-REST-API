@@ -35,13 +35,13 @@ namespace API.Services.Services
             where TSource : class, IEntity
             where TDest : class, IDataTransferObject
         {
-            IQueryable<TSource> query = dbContext.Set<TSource>();
+            IQueryable<TSource> query = dbContext.Set<TSource>().AsNoTracking();
 
             query = query.IncludeAll(include);
 
             // Single should be used here, not First. Even tho we are using predicate delegate to search, and the result value may not be unique, 
             // for example: multiple books with the same title can exist, this method should return value only if it is unique. 
-            var result = await query.SingleAsync(predicate);
+            var result = await query.SingleOrDefaultAsync(predicate);
 
             var returnValue = mapper.MapEntityToModel<TSource, TDest>(result);
 
@@ -53,7 +53,7 @@ namespace API.Services.Services
             where TSource : class, IEntity
             where TDest : class, IDataTransferObject
         {
-            IQueryable<TSource> query = dbContext.Set<TSource>();
+            IQueryable<TSource> query = dbContext.Set<TSource>().AsNoTracking();
 
             query = query.IncludeAll(include);
 
@@ -67,7 +67,7 @@ namespace API.Services.Services
             where TSource : class, IEntity
             where TDest : class, IDataTransferObject
         {
-            IQueryable<TSource> query = dbContext.Set<TSource>();
+            IQueryable<TSource> query = dbContext.Set<TSource>().AsNoTracking();
 
             query = query.IncludeAll(include);
 
@@ -86,7 +86,7 @@ namespace API.Services.Services
             where TSource : class, IEntity
             where TDest : class, IDataTransferObject
         {
-            IQueryable<TSource> query = dbContext.Set<TSource>();
+            IQueryable<TSource> query = dbContext.Set<TSource>().AsNoTracking();
 
             query = query.IncludeAll(include);
 
@@ -102,7 +102,7 @@ namespace API.Services.Services
             where TSource : class, IEntity
             where TDest : class, IDataTransferObject
         {
-            IQueryable<TSource> query = dbContext.Set<TSource>();
+            IQueryable<TSource> query = dbContext.Set<TSource>().AsNoTracking();
 
             query = query.IncludeAll(include);
 

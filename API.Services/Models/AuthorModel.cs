@@ -1,11 +1,12 @@
-﻿using System;
+﻿using API.Services.Mapper.Interaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.Models
+namespace API.Services.Models
 {
-    public class AuthorModel
+    public class AuthorModel : IDataTransferObject
     {
         public int? AuthorId { get; set; }
 

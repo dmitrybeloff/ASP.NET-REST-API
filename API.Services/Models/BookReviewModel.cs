@@ -1,11 +1,12 @@
-﻿using System;
+﻿using API.Services.Mapper.Interaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.Models
+namespace API.Services.Models
 {
-    public class BookReview
+    public class BookReviewModel: IDataTransferObject
     {
         public int? BookReviewId { get; private set; }
 

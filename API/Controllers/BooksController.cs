@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Domains.Aggregates.BookAggregate;
 using API.DomainServices.Commands;
+using API.Services.Models;
+using API.Services.Services.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +17,12 @@ namespace API.Controllers
     public class BooksController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly IGenericReadService readService;
 
-        public BooksController(IMediator mediator)
+        public BooksController(IMediator mediator, IGenericReadService readService)
         {
             this.mediator = mediator;
+            this.readService = readService;
         }
 
         [HttpPost]
@@ -48,6 +53,21 @@ namespace API.Controllers
             if (result)
             {
                 return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("{bookId}")]
+        public async Task<IActionResult> GetBookAsync(int bookId)
+        {
+            var book = await readService.ReadAsync<Book, BookModel>(x => x.BookId == bookId, new string[] { });
+
+            if (book != null)
+            {
+                return Ok(book);
             }
             else
             {
