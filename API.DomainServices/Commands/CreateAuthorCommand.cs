@@ -1,11 +1,12 @@
-﻿using MediatR;
+﻿using API.Services.Models;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace API.DomainServices.Commands
 {
-    public class CreateAuthorCommand : IRequest<bool>
+    public class CreateAuthorCommand : IRequest<AuthorModel>
     {
         public string Name { get; private set; }
 

@@ -1,5 +1,7 @@
 ﻿using API.Domains.Aggregates.AuthorAggregate;
 using API.Domains.Aggregates.BookAggregate;
+using API.Services.Mapper.Interaces;
+using API.Services.Models;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,29 +12,31 @@ using System.Threading.Tasks;
 
 namespace API.DomainServices.Commands
 {
-    public class AddBookReviewCommandHandler : IRequestHandler<AddBookReviewCommand, bool>
+    public class AddBookReviewCommandHandler : IRequestHandler<AddBookReviewCommand, BookReviewModel>
     {
         private readonly IBookRepository bookRepository;
+        private readonly IMapper mapper;
 
-        public AddBookReviewCommandHandler(IBookRepository bookRepository)
+        public AddBookReviewCommandHandler(IBookRepository bookRepository, IMapper mapper)
         {
             this.bookRepository = bookRepository;
+            this.mapper = mapper;
         }
 
-        public async Task<bool> Handle(AddBookReviewCommand request, CancellationToken cancellationToken)
+        public async Task<BookReviewModel> Handle(AddBookReviewCommand request, CancellationToken cancellationToken)
         {
             var book = await bookRepository.FindAsync(request.BookId);
 
             if (book is null)
             {
-                return false;
+                return default;
             }
 
             book.AddReview(request.Name, request.Stars, request.ReviewText);
 
             await bookRepository.UnitOfWork.SaveChangesAsync();
 
-            return true;
+            return mapper.MapEntityToModel<BookReview, BookReviewModel>(book.BookReviews[0]);
         }
     }
 }

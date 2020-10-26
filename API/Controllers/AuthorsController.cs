@@ -25,9 +25,9 @@ namespace API.Controllers
         {
             var result = await mediator.Send(createAuthorCommand);
 
-            if (result)
+            if (result != null && result.AuthorId.HasValue)
             {
-                return Ok();
+                return Created($@"{Request.Path}{result.AuthorId}", result);
             }
             else
             {

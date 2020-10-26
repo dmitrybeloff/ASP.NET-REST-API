@@ -30,29 +30,9 @@ namespace API.Controllers
         {
             var result = await mediator.Send(createBookCommand);
 
-            if (result)
+            if (result != null && result.BookId.HasValue)
             {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
-
-        [HttpPost("{bookId}")]
-        public async Task<IActionResult> AddBookReviewAsync(int bookId, [FromBody] AddBookReviewCommand addBookReviewCommand)
-        {
-            if (bookId != addBookReviewCommand.BookId)
-            {
-                return BadRequest("Ids do not match.");
-            }
-
-            var result = await mediator.Send(addBookReviewCommand);
-
-            if (result)
-            {
-                return Ok();
+                return Created($"{Request.Path}{result.BookId}", result);
             }
             else
             {
@@ -68,6 +48,41 @@ namespace API.Controllers
             if (book != null)
             {
                 return Ok(book);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("{bookId}/reviews/")]
+        public async Task<IActionResult> AddBookReviewAsync(int bookId, [FromBody] AddBookReviewCommand addBookReviewCommand)
+        {
+            if (bookId != addBookReviewCommand.BookId)
+            {
+                return BadRequest("Ids do not match.");
+            }
+
+            var result = await mediator.Send(addBookReviewCommand);
+
+            if (result != null && result.BookReviewId.HasValue)
+            {
+                return Created($"{Request.Path}{result.BookReviewId}", result);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("{bookId}/reviews/{reviewId}")]
+        public async Task<IActionResult> GetBookReviewAsync(int bookId, int reviewId)
+        {
+            var review = await readService.ReadAsync<BookReview, BookReviewModel>(x => x.Book.BookId == bookId && x.BookReviewId == reviewId, new string[] { });
+
+            if (review != null)
+            {
+                return Ok(review);
             }
             else
             {
