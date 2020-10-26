@@ -20,7 +20,7 @@ namespace API.Controllers
             this.mediator = mediator;
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> CreateAuthorAsync([FromBody] CreateAuthorCommand createAuthorCommand)
         {
             var result = await mediator.Send(createAuthorCommand);

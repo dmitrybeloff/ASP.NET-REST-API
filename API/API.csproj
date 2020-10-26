@@ -26,8 +26,8 @@
   <ItemGroup>
     <ProjectReference Include="..\API.DomainServices\API.DomainServices.csproj" />
     <ProjectReference Include="..\API.Domains\API.Domains.csproj" />
+    <ProjectReference Include="..\API.Infrastructure\API.Infrastructure.csproj" />
     <ProjectReference Include="..\API.Services\API.Services.csproj" />
-    <ProjectReference Include="..\Infrastructure\API.Infrastructure.csproj" />
   </ItemGroup>
 
 
