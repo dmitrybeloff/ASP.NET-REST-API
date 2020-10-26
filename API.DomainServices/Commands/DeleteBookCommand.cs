@@ -7,16 +7,13 @@ using System.Text;
 
 namespace API.DomainServices.Commands
 {
-    public class UpdateBookCommand : IRequest<bool>
+    public class DeleteBookCommand : IRequest<bool>
     {
         public int BookId { get; private set; }
 
-        public string Title { get; private set; }
-
-        public UpdateBookCommand(int bookId, string title)
+        public DeleteBookCommand(int bookId)
         {
             BookId = bookId;
-            Title = title;
-        }
+        }        
     }
 }

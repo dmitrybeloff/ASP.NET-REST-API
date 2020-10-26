@@ -38,7 +38,7 @@ namespace API.DomainServices.Commands
 
             await bookRepository.AddAsync(book);
 
-            await bookRepository.UnitOfWork.SaveChangesAsync();
+            await bookRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
             return mapper.MapEntityToModel<Book, BookModel>(book);
         }

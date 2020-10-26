@@ -38,7 +38,7 @@ namespace API.DomainServices.Commands
 
             await authorRepository.AddAsync(author);
 
-            await authorRepository.UnitOfWork.SaveChangesAsync();
+            await authorRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
             return mapper.MapEntityToModel<Author, AuthorModel>(author);
         }

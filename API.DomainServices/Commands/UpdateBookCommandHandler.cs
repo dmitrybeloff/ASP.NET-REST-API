@@ -12,18 +12,16 @@ using System.Threading.Tasks;
 
 namespace API.DomainServices.Commands
 {
-    public class AddBookReviewCommandHandler : IRequestHandler<AddBookReviewCommand, BookReviewModel>
+    public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand, bool>
     {
         private readonly IBookRepository bookRepository;
-        private readonly IMapper mapper;
 
-        public AddBookReviewCommandHandler(IBookRepository bookRepository, IMapper mapper)
+        public UpdateBookCommandHandler(IBookRepository bookRepository)
         {
             this.bookRepository = bookRepository;
-            this.mapper = mapper;
         }
 
-        public async Task<BookReviewModel> Handle(AddBookReviewCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
         {
             var book = await bookRepository.FindAsync(request.BookId);
 
@@ -32,11 +30,13 @@ namespace API.DomainServices.Commands
                 return default;
             }
 
-            book.AddReview(request.Name, request.Stars, request.ReviewText);
+            book.Update(request.Title);
+
+            bookRepository.Update(book);
 
             await bookRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
-            return mapper.MapEntityToModel<BookReview, BookReviewModel>(book.BookReviews[0]);
+            return true;
         }
     }
 }

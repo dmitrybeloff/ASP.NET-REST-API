@@ -25,6 +25,21 @@ namespace API.Controllers
             this.readService = readService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetBooksAsync([FromQuery] int start = 0, int limit = 10)
+        {
+            var reviews = await readService.ReadManyAsync<Book, BookModel>(start, limit, new string[] { });
+
+            if (reviews != null)
+            {
+                return Ok(reviews);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateBookAsync([FromBody]CreateBookCommand createBookCommand)
         {
@@ -48,6 +63,56 @@ namespace API.Controllers
             if (book != null)
             {
                 return Ok(book);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPut("{bookId}")]
+        public async Task<IActionResult> UpdateBookAsync(int bookId, [FromBody] UpdateBookCommand updateBookCommand)
+        {
+            if (bookId != updateBookCommand.BookId)
+            {
+                return BadRequest("Ids do not match.");
+            }
+
+            var result = await mediator.Send(updateBookCommand);
+
+            if (result)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpDelete("{bookId}")]
+        public async Task<IActionResult> DeleteBookAsync(int bookId)
+        {
+            var result = await mediator.Send(new DeleteBookCommand(bookId));
+
+            if (result)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet("{bookId}/reviews/")]
+        public async Task<IActionResult> GetBookReviewsAsync(int bookId, [FromQuery] int start = 0, int limit = 10)
+        {
+            var reviews = await readService.ReadManyAsync<BookReview, BookReviewModel>(start, limit, new string[] { }, x => x.Book.BookId == bookId);
+
+            if (reviews != null)
+            {
+                return Ok(reviews);
             }
             else
             {
@@ -86,8 +151,10 @@ namespace API.Controllers
             }
             else
             {
-                return BadRequest();
+                return NotFound();
             }
         }
+
+
     }
 }

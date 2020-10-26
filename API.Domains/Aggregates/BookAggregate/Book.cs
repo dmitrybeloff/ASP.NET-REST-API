@@ -11,7 +11,7 @@ namespace API.Domains.Aggregates.BookAggregate
     public class Book: Entity, IAggregateRoot
     {
         public int? BookId { get; private set; }
-        public string Title { get; set; }
+        public string Title { get; private set; }
 
         private readonly List<BookReview> bookReviews;
         public IReadOnlyList<BookReview> BookReviews => bookReviews;
@@ -44,6 +44,11 @@ namespace API.Domains.Aggregates.BookAggregate
                     AddDomainEvent(new BookAuthorConnectionCreatedDomainEvent(this, author));
                 }
             }
+        }
+
+        public void Update(string title)
+        {
+            Title = title;
         }
 
         public void AddReview(string name, int stars, string reviewText)
