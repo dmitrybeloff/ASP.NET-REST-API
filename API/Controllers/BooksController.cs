@@ -204,5 +204,35 @@ namespace API.Controllers
                 return NotFound();
             }
         }
+
+        [HttpPut("{bookId}/authors/{bookAuthorId}")]
+        public async Task<IActionResult> AddBookAuthorAsync(int bookId, int bookAuthorId)
+        {
+            var result = await mediator.Send(new AddBookAuthorCommand(bookId, bookAuthorId));
+
+            if (result)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpDelete("{bookId}/authors/{bookAuthorId}")]
+        public async Task<IActionResult> DeleteBookAuthorAsync(int bookId, int bookAuthorId)
+        {
+            var result = await mediator.Send(new DeleteBookAuthorCommand(bookId, bookAuthorId));
+
+            if (result)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

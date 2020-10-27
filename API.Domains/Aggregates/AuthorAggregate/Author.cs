@@ -40,5 +40,13 @@ namespace API.Domains.Aggregates.AuthorAggregate
                 }
             }
         }
+
+        public void AddBook(Book book)
+        {
+            if (book != null)
+            {
+                AddDomainEvent(new BookAuthorConnectionCreatedDomainEvent(book, this));
+            }            
+        }
     }
 }
