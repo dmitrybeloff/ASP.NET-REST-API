@@ -28,11 +28,11 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetBooksAsync([FromQuery] int start = 0, int limit = 10)
         {
-            var reviews = await readService.ReadManyAsync<Book, BookModel>(start, limit, new string[] { });
+            var books = await readService.ReadManyAsync<Book, BookModel>(start, limit, new string[] { });
 
-            if (reviews != null)
+            if (books != null)
             {
-                return Ok(reviews);
+                return Ok(books);
             }
             else
             {
